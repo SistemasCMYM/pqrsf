@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cmm-burgundy: #901227;
+  --cmm-coral: #ca6261;
+  --cmm-brown: #624133;
+  --cmm-gold: #d4ac5a;
+  --cmm-cream: #f4ecdc;
+  --cmm-forest: #1d5619;
+  --cmm-teal: #36574e;
+  --cmm-sage: #769578;
+  --cmm-purple: #57466a;
+  --cmm-lavender: #8a91c4;
+  --cmm-navy: #011842;
+  --cmm-steel: #4b729f;
+  --cmm-gray: #847d77;
+  --cmm-light: #e7e7e7;
+  --cmm-dark: #4d4d4d;
+}
+
+@layer base {
+  body {
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    @apply text-[#334155] antialiased;
+  }
+}
+
+@layer components {
+  .cmm-card {
+    @apply rounded-2xl bg-white shadow-sm ring-1 ring-slate-200;
+  }
+
+  .cmm-btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl border border-[#0f2d5c]/10 bg-[#0f2d5c] px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-[#0b2348];
+  }
+
+  .cmm-btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border border-[#2563eb]/20 bg-[#2563eb] px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-[#1d4ed8];
+  }
+
+  .cmm-badge {
+    @apply rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200;
+  }
+
+  .home-glass {
+    @apply rounded-3xl border border-white/80 bg-white/70 shadow-[0_18px_45px_-22px_rgba(15,45,92,0.35)] backdrop-blur-md;
+  }
+
+  .home-action {
+    @apply rounded-2xl border border-white/80 bg-white/65 p-4 transition hover:-translate-y-0.5 hover:bg-white;
+  }
+}

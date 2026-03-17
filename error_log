@@ -1,0 +1,154 @@
+[07-Mar-2026 18:22:19 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:22:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php84/root/usr/share/pear') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php84/root/usr/share/pear') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php84/root/usr/share/pear') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php84/root/usr/share/pear') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php84/root/usr/share/pear') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Warning:  require(/home/sysocoqv/pqrs/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:27:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sysocoqv/pqrs/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php84/root/usr/share/pear') in /home/sysocoqv/pqrs/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sysocoqv/pqrs/artisan on line 10
+[07-Mar-2026 18:29:18 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:29:24 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:32:20 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:32:20 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:32:21 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:32:21 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:32:22 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:32:23 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:32:23 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:34:32 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:34:44 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:34:56 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:35:12 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:35:12 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:35:12 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:38:48 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:39:09 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:39:10 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:39:10 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:39:21 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:39:21 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:39:22 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:41:57 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:42:05 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:42:10 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:42:14 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:42:20 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:42:30 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:42:30 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:44:00 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:48:28 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:48:33 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:48:38 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:48:46 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:48:46 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:48:47 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:49:36 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:49:39 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:51:57 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:52:01 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 18:52:05 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:04:03 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:04:03 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:04:04 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:04:04 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:07:38 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:07:38 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:07:38 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:10:52 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:12:15 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:12:15 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:12:15 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[07-Mar-2026 19:12:16 UTC] PHP Warning:  PHP Startup: session.gc_divisor must be greater than 0 in Unknown on line 0
+[10-Mar-2026 14:46:21 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.4.0". You are running 8.2.30. in /home/sysocoqv/pqrs/vendor/composer/platform_check.php:26
+Stack trace:
+#0 /home/sysocoqv/pqrs/vendor/composer/autoload_real.php(25): require()
+#1 /home/sysocoqv/pqrs/vendor/autoload.php(22): ComposerAutoloaderInit88bbb4000994a01bfc06c101e2d9adff::getLoader()
+#2 /home/sysocoqv/pqrs/artisan(10): require('/home/sysocoqv/...')
+#3 {main}
+  thrown in /home/sysocoqv/pqrs/vendor/composer/platform_check.php on line 26
+[10-Mar-2026 14:46:45 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.4.0". You are running 8.2.30. in /home/sysocoqv/pqrs/vendor/composer/platform_check.php:26
+Stack trace:
+#0 /home/sysocoqv/pqrs/vendor/composer/autoload_real.php(25): require()
+#1 /home/sysocoqv/pqrs/vendor/autoload.php(22): ComposerAutoloaderInit88bbb4000994a01bfc06c101e2d9adff::getLoader()
+#2 /home/sysocoqv/pqrs/artisan(10): require('/home/sysocoqv/...')
+#3 {main}
+  thrown in /home/sysocoqv/pqrs/vendor/composer/platform_check.php on line 26
+[10-Mar-2026 14:46:53 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.4.0". You are running 8.2.30. in /home/sysocoqv/pqrs/vendor/composer/platform_check.php:26
+Stack trace:
+#0 /home/sysocoqv/pqrs/vendor/composer/autoload_real.php(25): require()
+#1 /home/sysocoqv/pqrs/vendor/autoload.php(22): ComposerAutoloaderInit88bbb4000994a01bfc06c101e2d9adff::getLoader()
+#2 /home/sysocoqv/pqrs/artisan(10): require('/home/sysocoqv/...')
+#3 {main}
+  thrown in /home/sysocoqv/pqrs/vendor/composer/platform_check.php on line 26
+[10-Mar-2026 16:47:22 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.4.0". You are running 8.2.30. in /home/sysocoqv/pqrs/vendor/composer/platform_check.php:26
+Stack trace:
+#0 /home/sysocoqv/pqrs/vendor/composer/autoload_real.php(25): require()
+#1 /home/sysocoqv/pqrs/vendor/autoload.php(22): ComposerAutoloaderInit88bbb4000994a01bfc06c101e2d9adff::getLoader()
+#2 /home/sysocoqv/pqrs/artisan(10): require('/home/sysocoqv/...')
+#3 {main}
+  thrown in /home/sysocoqv/pqrs/vendor/composer/platform_check.php on line 26
