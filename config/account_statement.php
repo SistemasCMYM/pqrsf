@@ -9,4 +9,14 @@ return [
         'username' => env('ACCOUNT_STATEMENT_API_USERNAME'),
         'password' => env('ACCOUNT_STATEMENT_API_PASSWORD'),
     ],
+    'viaticos' => [
+    'base_url'      => env('VIATICOS_API_URL'),
+    'client_id'     => env('VIATICOS_CLIENT_ID'),
+    'client_secret' => env('VIATICOS_CLIENT_SECRET'),
+    'scope'         => env('VIATICOS_SCOPE', 'read-anticipos'),
+    'username'      => env('VIATICOS_USERNAME'),
+    'password'      => env('VIATICOS_PASSWORD'),
+    'timeout'       => env('VIATICOS_TIMEOUT', 15),
+    'source' => env('ACCOUNT_STATEMENT_SOURCE', 'excel'),
+],
 ];

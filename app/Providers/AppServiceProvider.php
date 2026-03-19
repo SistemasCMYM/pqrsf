@@ -10,6 +10,7 @@ use App\Policies\PqrsfPolicy;
 use App\Services\EstadoCuenta\DataSources\AccountStatementDataSourceInterface;
 use App\Services\EstadoCuenta\DataSources\ApiAccountStatementDataSource;
 use App\Services\EstadoCuenta\DataSources\ExcelAccountStatementDataSource;
+use App\Services\EstadoCuenta\DataSources\ViaticosApiDataSource;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -20,9 +21,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(AccountStatementDataSourceInterface::class, function () {
-            return config('account_statement.source') === 'api'
-                ? new ApiAccountStatementDataSource()
-                : new ExcelAccountStatementDataSource();
+            return match (config('account_statement.source')) {
+                'viaticos_api' => new ViaticosApiDataSource(),
+                'api'          => new ApiAccountStatementDataSource(),
+                default        => new ExcelAccountStatementDataSource(),
+            };
         });
     }
 
