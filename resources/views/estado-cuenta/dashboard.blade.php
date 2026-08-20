@@ -16,7 +16,7 @@
             </form>
 
             {{-- Resultados desde la API --}}
-            <h3 class="text-lg font-semibold text-[#36574e] mt-8 mb-2">Resultados desde la API</h3>
+            <h3 class="text-lg font-semibold text-[#36574e] mt-8 mb-2">Resultados desde SIGI</h3>
             @if($resumen)
                 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Total anticipos</p><p class="text-xl font-bold text-[#901227]">${{ number_format((float)$resumen->anticipos_adiciones, 0, ',', '.') }}</p></div>
@@ -27,10 +27,11 @@
             @endif
             <div class="overflow-hidden cmm-card mt-2 mb-8">
                 <table class="min-w-full divide-y divide-[#e7e7e7] text-sm">
-                    <thead class="bg-[#f4ecdc] text-[#624133]"><tr><th class="px-4 py-3 text-left">Fecha ida</th><th class="px-4 py-3 text-left">Destino</th><th class="px-4 py-3 text-right">Anticipo</th><th class="px-4 py-3 text-right">Legalizado</th><th class="px-4 py-3 text-right">Saldo</th><th class="px-4 py-3 text-center">Estado</th></tr></thead>
+                    <thead class="bg-[#f4ecdc] text-[#624133]"><tr><th class="px-4 py-3 text-left">Item</th><th class="px-4 py-3 text-left">Fecha ida</th><th class="px-4 py-3 text-left">Destino</th><th class="px-4 py-3 text-right">Anticipo</th><th class="px-4 py-3 text-right">Legalizado</th><th class="px-4 py-3 text-right">Saldo</th><th class="px-4 py-3 text-center">Estado</th></tr></thead>
                     <tbody class="divide-y divide-[#e7e7e7]">
                         @forelse($detalle as $d)
                             <tr>
+                                <td class="px-4 py-3">{{ $d->id }}</td>
                                 <td class="px-4 py-3">{{ optional($d->fecha_ida)->format('Y-m-d') }}</td>
                                 <td class="px-4 py-3">{{ $d->municipio_destino }}</td>
                                 <td class="px-4 py-3 text-right">${{ number_format((float)$d->anticipo, 0, ',', '.') }}</td>

@@ -46,138 +46,203 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
     // que espera EstadoCuentaDashboardController → vista dashboard
     // -----------------------------------------------------------------
     public function fetchByCedula(string $cedula, array $filters = []): array
-    {
-        try {
-            // Log detalles de la consulta
-            Log::info('Consultando API Viáticos por identificación', [
-                'identificacion_original' => $cedula,
-                'identificacion_sanitizada' => $this->sanitizeCedula($cedula),
-                'endpoint' => "{$this->baseUrl}/api/v1/asesores/{$cedula}/viaticos-pendientes",
-            ]);
+{
+    try {
+        $cedulaSanitizada = $this->sanitizeCedula($cedula);
+        
+        Log::info('Consultando API Viáticos por identificación', [
+            'identificacion_original' => $cedula,
+            'identificacion_sanitizada' => $cedulaSanitizada,
+            'endpoint' => "{$this->baseUrl}/api/v1/asesores/{$cedulaSanitizada}/viaticos-pendientes",
+        ]);
+
+        $response = Http::timeout($this->timeout)
+            ->withToken($this->getToken())
+            ->acceptJson()
+            ->get("{$this->baseUrl}/api/v1/asesores/{$cedulaSanitizada}/viaticos-pendientes");
+
+        Log::info('Respuesta de API Viáticos', [
+            'status' => $response->status(),
+            'identificacion' => $cedula,
+            'response_size' => strlen($response->body()),
+        ]);
+
+        // Token expirado → renovar y reintentar una vez
+        if ($response->status() === 401) {
+            Log::warning('Token expirado, renovando...', ['identificacion' => $cedula]);
+            Cache::forget('viaticos_oauth_token');
 
             $response = Http::timeout($this->timeout)
                 ->withToken($this->getToken())
                 ->acceptJson()
-                ->get("{$this->baseUrl}/api/v1/asesores/{$cedula}/viaticos-pendientes");
+                ->get("{$this->baseUrl}/api/v1/asesores/{$cedulaSanitizada}/viaticos-pendientes");
+        }
 
-            Log::info('Respuesta de API Viáticos', [
-                'status' => $response->status(),
+        if ($response->status() === 500) {
+            Log::error('Error 500 en API Viáticos', [
                 'identificacion' => $cedula,
-                'response_size' => strlen($response->body()),
+                'url' => "{$this->baseUrl}/api/v1/asesores/{$cedulaSanitizada}/viaticos-pendientes",
+                'body' => $response->body(),
             ]);
-
-            // Token expirado → renovar y reintentar una vez
-            if ($response->status() === 401) {
-                Log::warning('Token expirado, renovando...', ['identificacion' => $cedula]);
-                Cache::forget('viaticos_oauth_token');
-
-                $response = Http::timeout($this->timeout)
-                    ->withToken($this->getToken())
-                    ->acceptJson()
-                    ->get("{$this->baseUrl}/api/v1/asesores/{$cedula}/viaticos-pendientes");
-            }
-
-            if (! $response->successful()) {
-                Log::error('Consulta no exitosa a API Viáticos', [
-                    'status' => $response->status(),
-                    'identificacion' => $cedula,
-                    'body' => $response->body(),
-                ]);
-                return [
-                    'resumen' => null,
-                    'detalle' => collect(),
-                    'error'   => "No se encontraron datos para la identificación: {$cedula} (HTTP {$response->status()})",
-                ];
-            }
-
-            $payload = $response->json();
-            $items   = $payload ?? [];
             
-            // Si la respuesta tiene una estructura diferente, adaptar
-            if (isset($payload['data'])) {
-                $items = $payload['data'];
-            } elseif (!is_array($payload)) {
-                $items = [];
-            }
-
-            // --- Filtros opcionales que vienen del formulario ---
-            $detalle = collect($items)
-                ->when($filters['estado'] ?? null, fn ($c, $estado) =>
-                    $c->filter(fn ($i) => 
-                        str_contains(
-                            strtolower($i['viatico']['estado_viatico_id'] ?? ''),
-                            strtolower($estado)
-                        )
-                    )
-                )
-                ->when($filters['anio'] ?? null, fn ($c, $anio) =>
-                    $c->filter(fn ($i) =>
-                        Carbon::parse($i['viatico']['fecha_inicio'] ?? null)
-                            ->year == $anio
-                    )
-                )
-                ->when($filters['mes'] ?? null, fn ($c, $mes) =>
-                    $c->filter(fn ($i) =>
-                        Carbon::parse($i['viatico']['fecha_inicio'] ?? null)
-                            ->month == $mes
-                    )
-                )
-                // --- Mapeo al formato que espera la vista ---
-                ->map(fn ($item) => (object) [
-                    'fecha_ida'         => Carbon::parse($item['viatico']['fecha_inicio'] ?? null),
-                    'municipio_destino' => is_array($item['viatico']['municipio_destino'] ?? null) 
-                        ? (reset($item['viatico']['municipio_destino']) ?: 'N/A')
-                        : ($item['viatico']['municipio_destino'] ?? 'N/A'),
-                    'anticipo'          => (float) ($item['valores_viatico']['total'] ?? 0),
-                    'legalizado'        => (float) ($item['legalizacion']['valor_total'] ?? 0),
-                    'saldo_pendiente'   => (float) (($item['legalizacion']['valor_total'] ?? 0) 
-                                        - ($item['valores_viatico']['total'] ?? 0)),
-                    'estado'            => $this->mapEstadoViatico($item['viatico']['estado_viatico_id'] ?? null),
-                ])
-                ->values();
-
-            // --- Resumen calculado igual que ExcelAccountStatementDataSource ---
-            $resumen = null;
-
-            if ($detalle->isNotEmpty()) {
-                $anticipos   = (float) $detalle->sum('anticipo');
-                $legalizado  = (float) $detalle->sum('legalizado');
-                $neto        = round($anticipos - $legalizado, 2);
-
-                $resumen = (object) [
-                    'anticipos_adiciones'     => $anticipos,
-                    'legalizado_devoluciones' => $legalizado,
-                    'sin_legalizar'           => $neto > 0 ? $neto : 0,
-                    'total_consignar'         => $neto > 0 ? $neto : 0,
-                    'estado_saldo'            => $neto > 0
-                        ? 'SALDO A FAVOR DE SYSO'
-                        : ($neto < 0 ? 'SALDO A FAVOR DEL ASESOR' : 'SALDO EN $0'),
-                ];
-            }
-
-            return [
-                'resumen' => $resumen,
-                'detalle' => $detalle,
-            ];
-
-        } catch (\Throwable $exception) {
-            SincronizacionApi::query()->create([
-                'modulo'       => 'viaticos_api',
-                'estado'       => 'error',
-                'log_error'    => $exception->getMessage(),
-                'fecha_inicio' => now(),
-                'fecha_fin'    => now(),
-            ]);
-
-            Log::error('Error ViaticosApiDataSource', ['error' => $exception->getMessage()]);
-
             return [
                 'resumen' => null,
                 'detalle' => collect(),
-                'error'   => 'Error de conectividad con la API de Viáticos',
+                'dbResumen' => null,
+                'dbDetalle' => collect(),
+                'error' => "El servicio de viáticos no está disponible en este momento. Por favor, intente más tarde.",
             ];
         }
+
+        if (! $response->successful()) {
+            Log::error('Consulta no exitosa a API Viáticos', [
+                'status' => $response->status(),
+                'identificacion' => $cedula,
+                'body' => $response->body(),
+            ]);
+            return [
+                'resumen' => null,
+                'detalle' => collect(),
+                'dbResumen' => null,
+                'dbDetalle' => collect(),
+                'error' => "No se encontraron datos para la identificación: {$cedula} (HTTP {$response->status()})",
+            ];
+        }
+
+        $payload = $response->json();
+        $items = $payload['data'] ?? $payload ?? [];
+
+        // --- Filtros opcionales ---
+        $detalle = collect($items)
+            ->when($filters['estado'] ?? null, function ($c, $estado) {
+                $estadoBuscar = strtolower(trim($estado));
+                return $c->filter(function ($item) use ($estadoBuscar) {
+                    $estadoActual = strtolower($this->mapEstadoViatico($item['viatico']['estado_viatico_id'] ?? null));
+                    return str_contains($estadoActual, $estadoBuscar);
+                });
+            })
+            ->when($filters['anio'] ?? null, function ($c, $anio) {
+                return $c->filter(function ($item) use ($anio) {
+                    $fechaInicio = $item['viatico']['fecha_inicio'] ?? null;
+                    if (!$fechaInicio) return false;
+                    return Carbon::parse($fechaInicio)->year == $anio;
+                });
+            })
+            ->when($filters['mes'] ?? null, function ($c, $mes) {
+                return $c->filter(function ($item) use ($mes) {
+                    $fechaInicio = $item['viatico']['fecha_inicio'] ?? null;
+                    if (!$fechaInicio) return false;
+                    return Carbon::parse($fechaInicio)->month == $mes;
+                });
+            })
+            ->when($filters['municipio'] ?? null, function ($c, $municipio) {
+                $municipioBuscar = strtolower(trim($municipio));
+                return $c->filter(function ($item) use ($municipioBuscar) {
+                    $municipioDestino = is_array($item['viatico']['municipio_destino'] ?? null) 
+                        ? reset($item['viatico']['municipio_destino']) 
+                        : ($item['viatico']['municipio_destino'] ?? '');
+                    return str_contains(strtolower($municipioDestino), $municipioBuscar);
+                });
+            })
+            // --- Mapeo CORREGIDO ---
+            ->map(function ($item) {
+                // Obtener anticipo
+                $anticipo = (float) ($item['valores_viatico']['total'] ?? 0);
+                
+                $legalizado = 0;
+                
+                // Intentar obtener de valores_legalizados (nueva estructura)
+                if (isset($item['valores_legalizados']['total'])) {
+                    $legalizado = (float) $item['valores_legalizados']['total'];
+                } 
+                // Fallback a legalizacion.valor_total (estructura antigua por compatibilidad)
+                elseif (isset($item['legalizacion']['valor_total'])) {
+                    $legalizado = (float) $item['legalizacion']['valor_total'];
+                }
+                
+                // Calcular saldo pendiente: Anticipo - Legalizado
+                $saldoPendiente = $anticipo - $legalizado;
+
+                // Obtener municipio destino
+                $municipioDestino = 'N/A';
+                if (isset($item['viatico']['municipio_destino'])) {
+                    if (is_array($item['viatico']['municipio_destino'])) {
+                        $municipioDestino = reset($item['viatico']['municipio_destino']) ?: 'N/A';
+                    } else {
+                        $municipioDestino = $item['viatico']['municipio_destino'];
+                    }
+                }
+
+                return (object) [
+                    'item' => $item['viatico']['id'] ?? 'N/A',
+                    'fecha_ida' => isset($item['viatico']['fecha_inicio']) 
+                        ? Carbon::parse($item['viatico']['fecha_inicio']) 
+                        : null,
+                    'municipio_destino' => $municipioDestino,
+                    'anticipo' => $anticipo,
+                    'legalizado' => $legalizado,
+                    'saldo_pendiente' => $saldoPendiente,
+                    'estado' => $this->mapEstadoViatico($item['viatico']['estado_viatico_id'] ?? null),
+                ];
+            })
+            ->values();
+
+        // --- Resumen calculado ---
+        $resumen = null;
+        $dbResumen = null;
+
+        if ($detalle->isNotEmpty()) {
+            $anticipos = (float) $detalle->sum('anticipo');
+            $legalizado = (float) $detalle->sum('legalizado');
+            $neto = round($anticipos - $legalizado, 2);
+
+            $estadoSaldo = $neto > 0 
+                ? 'SALDO A FAVOR DE SYSO'
+                : ($neto < 0 ? 'SALDO A FAVOR DEL ASESOR' : 'SALDO EN $0');
+
+            $resumen = (object) [
+                'anticipos_adiciones' => $anticipos,
+                'legalizado_devoluciones' => $legalizado,
+                'sin_legalizar' => $neto > 0 ? $neto : 0,
+                'total_consignar' => $neto > 0 ? $neto : 0,
+                'estado_saldo' => $estadoSaldo,
+            ];
+
+            $dbResumen = clone $resumen;
+        }
+
+        return [
+            'resumen' => $resumen,
+            'detalle' => $detalle,
+            'dbResumen' => $dbResumen,
+            'dbDetalle' => $detalle,
+            'error' => null,
+        ];
+
+    } catch (\Throwable $exception) {
+        SincronizacionApi::query()->create([
+            'modulo' => 'viaticos_api',
+            'estado' => 'error',
+            'log_error' => $exception->getMessage() . "\n" . $exception->getTraceAsString(),
+            'fecha_inicio' => now(),
+            'fecha_fin' => now(),
+        ]);
+
+        Log::error('Error ViaticosApiDataSource', [
+            'error' => $exception->getMessage(),
+            'trace' => $exception->getTraceAsString(),
+            'cedula' => $cedula,
+        ]);
+
+        return [
+            'resumen' => null,
+            'detalle' => collect(),
+            'dbResumen' => null,
+            'dbDetalle' => collect(),
+            'error' => 'Error de conectividad con la API de Viáticos. Por favor, intente más tarde.',
+        ];
     }
+}
 
     // -----------------------------------------------------------------
     // Token OAuth2 cacheado 23 horas para no pedirlo en cada consulta
