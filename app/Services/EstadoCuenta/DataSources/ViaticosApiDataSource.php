@@ -162,6 +162,7 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
                 
                 // Calcular saldo pendiente: Anticipo - Legalizado
                 $saldoPendiente = $anticipo - $legalizado;
+                $idLegalizacion = $item['legalizacion']['id'] ?? 'N/A';
 
                 // Obtener municipio destino
                 $municipioDestino = 'N/A';
@@ -175,7 +176,7 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
 
                 return (object) [
                     'item' => $item['viatico']['id'] ?? 'N/A',
-                    'id_legalizacion' => $item['legalizacion']['id'] ?? null,
+                    'id_legalizacion' => $idLegalizacion,
                     'fecha_ida' => isset($item['viatico']['fecha_inicio']) 
                         ? Carbon::parse($item['viatico']['fecha_inicio']) 
                         : null,
