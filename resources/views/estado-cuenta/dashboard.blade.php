@@ -31,7 +31,12 @@
                     <tbody class="divide-y divide-[#e7e7e7]">
                         @forelse($detalle as $d)
                             <tr>
-                                <td class="px-4 py-3">{{ $d->id }}</td>
+                                <td class="px-4 py-3">
+                                    <a href="https://gestion.syso.co/legalizaciones/{{ $d->id_legalizacion }}" 
+                                    class="text-blue-600 hover:underline">
+                                        {{ $d->item }}
+                                    </a>
+                                </td>
                                 <td class="px-4 py-3">{{ optional($d->fecha_ida)->format('Y-m-d') }}</td>
                                 <td class="px-4 py-3">{{ $d->municipio_destino }}</td>
                                 <td class="px-4 py-3 text-right">${{ number_format((float)$d->anticipo, 0, ',', '.') }}</td>

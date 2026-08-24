@@ -175,6 +175,7 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
 
                 return (object) [
                     'item' => $item['viatico']['id'] ?? 'N/A',
+                    'id_legalizacion' => $item['legalizacion']['id'] ?? null,
                     'fecha_ida' => isset($item['viatico']['fecha_inicio']) 
                         ? Carbon::parse($item['viatico']['fecha_inicio']) 
                         : null,
