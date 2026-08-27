@@ -16,7 +16,15 @@
             </form>
 
             {{-- Resultados desde la API --}}
-            <h3 class="text-lg font-semibold text-[#36574e] mt-8 mb-2">Resultados desde SIGI</h3>
+            <div class="mt-8 mb-2 flex items-center justify-between gap-4">
+                <h3 class="text-lg font-semibold text-[#36574e]">Resultados desde SIGI</h3>
+                @if($cedula)
+                    <a href="{{ route('estado-cuenta.export', array_filter(['cedula' => $cedula, ...$filters], fn ($value) => filled($value))) }}"
+                       class="cmm-btn-primary whitespace-nowrap">
+                        Exportar a Excel
+                    </a>
+                @endif
+            </div>
             @if($resumen)
                 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Total anticipos</p><p class="text-xl font-bold text-[#901227]">${{ number_format((float)$resumen->anticipos_adiciones, 0, ',', '.') }}</p></div>

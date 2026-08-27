@@ -67,6 +67,9 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('/estado-cuenta', EstadoCuentaDashboardController::class)
         ->middleware('ensure.role:Administrador,Coordinador Estado Cuenta,Asesor')
         ->name('estado-cuenta.dashboard');
+    Route::get('/estado-cuenta/exportar', [EstadoCuentaDashboardController::class, 'export'])
+        ->middleware('ensure.role:Administrador,Coordinador Estado Cuenta,Asesor')
+        ->name('estado-cuenta.export');
 
     Route::middleware('ensure.role:Administrador,Coordinador Estado Cuenta')->prefix('estado-cuenta/admin')->name('estado-cuenta.admin.')->group(function (): void {
         Route::get('/', [EstadoCuentaAdminController::class, 'index'])->name('index');
