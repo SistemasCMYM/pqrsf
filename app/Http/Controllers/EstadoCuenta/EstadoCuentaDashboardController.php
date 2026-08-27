@@ -31,8 +31,34 @@ class EstadoCuentaDashboardController extends Controller
 
         abort_if(! empty($data['error']), 502, $data['error']);
 
+        $dbDetalle = EstadoCuentaDetalle::where('cedula', $cedula)
+            ->when($filters['anio'] ?? null, fn ($q, $anio) => $q->where('anio', $anio))
+            ->when($filters['mes'] ?? null, fn ($q, $mes) => $q->where('mes', $mes))
+            ->when($filters['estado'] ?? null, fn ($q, $estado) => $q->where('estado', $estado))
+            ->when($filters['municipio'] ?? null, fn ($q, $municipio) => $q->where('municipio_destino', 'like', "%{$municipio}%"))
+            ->orderByDesc('fecha_ida')
+            ->get();
+
+        $detalle = collect($data['detalle'] ?? [])
+            ->map(function ($item) {
+                if (is_array($item)) {
+                    $item['fuente_exportacion'] = 'SIGI';
+
+                    return (object) $item;
+                }
+
+                $item->fuente_exportacion = 'SIGI';
+
+                return $item;
+            })
+            ->concat($dbDetalle->map(function (EstadoCuentaDetalle $item) {
+                $item->fuente_exportacion = 'Base de datos local';
+
+                return $item;
+            }));
+
         return Excel::download(
-            new EstadoCuentaSigiExport(collect($data['detalle'] ?? [])),
+            new EstadoCuentaSigiExport($detalle),
             'estado-cuenta-sigi-'.$cedula.'.xlsx'
         );
     }

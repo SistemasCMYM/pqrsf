@@ -21,7 +21,7 @@ class EstadoCuentaSigiExport implements FromCollection, ShouldAutoSize, WithHead
 
     public function headings(): array
     {
-        return ['Item', 'Fecha ida', 'Destino', 'Anticipo', 'Legalizado', 'Saldo', 'Estado'];
+        return ['Item', 'Fecha ida', 'Destino', 'Anticipo', 'Legalizado', 'Saldo', 'Estado', 'Fuente'];
     }
 
     public function map($detalle): array
@@ -36,6 +36,7 @@ class EstadoCuentaSigiExport implements FromCollection, ShouldAutoSize, WithHead
             (float) data_get($detalle, 'legalizado', 0),
             (float) data_get($detalle, 'saldo_pendiente', 0),
             data_get($detalle, 'estado'),
+            data_get($detalle, 'fuente_exportacion'),
         ];
     }
 }
