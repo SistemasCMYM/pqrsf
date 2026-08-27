@@ -73,6 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
 
     Route::middleware('ensure.role:Administrador,Coordinador Estado Cuenta')->prefix('estado-cuenta/admin')->name('estado-cuenta.admin.')->group(function (): void {
         Route::get('/', [EstadoCuentaAdminController::class, 'index'])->name('index');
+        Route::get('/exportar-general', [EstadoCuentaAdminController::class, 'exportGeneral'])->name('export-general');
         Route::post('/importar', [ImportacionExcelController::class, 'store'])->name('import');
         Route::post('/config', [EstadoCuentaAdminController::class, 'updateConfig'])->name('config.update');
         Route::post('/sync-api', ApiSyncController::class)->name('sync-api');
