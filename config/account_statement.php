@@ -11,6 +11,7 @@ return [
     ],
     'viaticos' => [
     'base_url'      => env('VIATICOS_API_URL'),
+    'totals_path'   => env('VIATICOS_TOTALS_PATH', '/api/v1/asesores/{cedula}/valores-totales-viaticos'),
     'client_id'     => env('VIATICOS_CLIENT_ID'),
     'client_secret' => env('VIATICOS_CLIENT_SECRET'),
     'scope'         => env('VIATICOS_SCOPE', 'read-anticipos'),

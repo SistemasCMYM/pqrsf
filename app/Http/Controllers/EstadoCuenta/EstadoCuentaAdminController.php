@@ -9,7 +9,7 @@ use App\Models\ConfiguracionIntegracion;
 use App\Models\EstadoCuentaResumen;
 use App\Models\ImportacionExcel;
 use App\Models\SincronizacionApi;
-use App\Services\EstadoCuenta\EstadoCuentaSyncService;
+use App\Services\EstadoCuenta\DataSources\ViaticosApiDataSource;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EstadoCuentaAdminController extends Controller
 {
-    public function exportGeneral(EstadoCuentaSyncService $service): BinaryFileResponse
+    public function exportGeneral(ViaticosApiDataSource $viaticosApi): BinaryFileResponse
     {
         $resumenes = EstadoCuentaResumen::query()
             ->whereNotNull('cedula')
@@ -27,22 +27,24 @@ class EstadoCuentaAdminController extends Controller
 
         $usuarios = $resumenes
             ->groupBy('cedula')
-            ->map(function ($resumenesUsuario, $cedula) use ($service) {
+            ->map(function ($resumenesUsuario, $cedula) use ($viaticosApi) {
                 $ultimoResumen = $resumenesUsuario->first();
-                $apiResumen = config('account_statement.source') === 'excel'
-                    ? null
-                    : ($service->consultByCedula((string) $cedula)['resumen'] ?? null);
+                $apiTotales = $viaticosApi->fetchTotalsByCedula((string) $cedula);
                 $totalAnticipado = (float) $resumenesUsuario->sum('anticipos_adiciones')
-                    + (float) data_get($apiResumen, 'anticipos_adiciones', 0);
+                    + (float) data_get($apiTotales, 'total_anticipado', 0);
                 $totalLegalizado = (float) $resumenesUsuario->sum('legalizado_devoluciones')
-                    + (float) data_get($apiResumen, 'legalizado_devoluciones', 0);
-                $saldo = (float) $resumenesUsuario->sum('sin_legalizar')
-                    + (float) data_get($apiResumen, 'sin_legalizar', 0);
+                    + (float) data_get($apiTotales, 'total_legalizado', 0);
+                $saldoApi = max(
+                    (float) data_get($apiTotales, 'total_anticipado', 0)
+                    - (float) data_get($apiTotales, 'total_legalizado', 0),
+                    0
+                );
+                $saldo = (float) $resumenesUsuario->sum('sin_legalizar') + $saldoApi;
                 $neto = round($totalAnticipado - $totalLegalizado, 2);
 
                 return (object) [
                     'usuario' => $ultimoResumen->id_asesor,
-                    'nombre' => $ultimoResumen->nombre_asesor,
+                    'nombre' => data_get($apiTotales, 'nombre') ?: $ultimoResumen->nombre_asesor,
                     'cedula' => $cedula,
                     'total_anticipado' => $totalAnticipado,
                     'total_legalizado' => $totalLegalizado,

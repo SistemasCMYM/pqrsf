@@ -41,6 +41,54 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
         ];
     }
 
+    public function fetchTotalsByCedula(string $cedula): ?array
+    {
+        try {
+            $path = str_replace(
+                '{cedula}',
+                $this->sanitizeCedula($cedula),
+                (string) config('account_statement.viaticos.totals_path')
+            );
+
+            $response = Http::timeout($this->timeout)
+                ->withToken($this->getToken())
+                ->acceptJson()
+                ->get(rtrim($this->baseUrl, '/').'/'.ltrim($path, '/'));
+
+            if ($response->status() === 401) {
+                Cache::forget('viaticos_oauth_token');
+                $response = Http::timeout($this->timeout)
+                    ->withToken($this->getToken())
+                    ->acceptJson()
+                    ->get(rtrim($this->baseUrl, '/').'/'.ltrim($path, '/'));
+            }
+
+            if (! $response->successful()) {
+                Log::warning('No se pudieron obtener totales SIGI', [
+                    'cedula' => $cedula,
+                    'status' => $response->status(),
+                ]);
+
+                return null;
+            }
+
+            $data = $response->json('data', []);
+
+            return [
+                'nombre' => trim((string) ($data['nombre'] ?? '').' '.($data['apellido'] ?? '')),
+                    'total_anticipado' => (float) ($data['valores_totales'] ?? 0),
+                    'total_legalizado' => (float) ($data['valores_legalizados'] ?? $data['valoresLegalizados'] ?? 0),
+            ];
+        } catch (\Throwable $exception) {
+            Log::warning('Error consultando totales SIGI', [
+                'cedula' => $cedula,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
     // -----------------------------------------------------------------
     // Consulta anticipos pendientes por cédula y mapea al formato
     // que espera EstadoCuentaDashboardController → vista dashboard
