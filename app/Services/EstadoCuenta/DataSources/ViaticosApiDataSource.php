@@ -43,6 +43,13 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
 
     public function fetchTotalsByCedula(string $cedula): ?array
     {
+        $cacheKey = 'viaticos_totals_'.md5($this->sanitizeCedula($cedula));
+        $cached = Cache::get($cacheKey);
+
+        if ($cached !== null) {
+            return $cached;
+        }
+
         try {
             $path = str_replace(
                 '{cedula}',
@@ -50,23 +57,41 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
                 (string) config('account_statement.viaticos.totals_path')
             );
 
-            $response = Http::timeout($this->timeout)
-                ->withToken($this->getToken())
-                ->acceptJson()
-                ->get(rtrim($this->baseUrl, '/').'/'.ltrim($path, '/'));
+            $url = rtrim($this->baseUrl, '/').'/'.ltrim($path, '/');
+            $maxRetries = max(1, (int) config('account_statement.viaticos.totals_max_retries', 3));
+            $response = null;
 
-            if ($response->status() === 401) {
-                Cache::forget('viaticos_oauth_token');
+            for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
                 $response = Http::timeout($this->timeout)
                     ->withToken($this->getToken())
                     ->acceptJson()
-                    ->get(rtrim($this->baseUrl, '/').'/'.ltrim($path, '/'));
+                    ->get($url);
+
+                if ($response->status() === 401) {
+                    Cache::forget('viaticos_oauth_token');
+                    continue;
+                }
+
+                if ($response->status() !== 429 || $attempt === $maxRetries) {
+                    break;
+                }
+
+                $retryAfter = (int) $response->header('Retry-After', 0);
+                $delaySeconds = $retryAfter > 0 ? $retryAfter : $attempt;
+                sleep($delaySeconds);
             }
 
-            if (! $response->successful()) {
+            if ($response?->status() === 401) {
+                $response = Http::timeout($this->timeout)
+                    ->withToken($this->getToken())
+                    ->acceptJson()
+                    ->get($url);
+            }
+
+            if (! $response || ! $response->successful()) {
                 Log::warning('No se pudieron obtener totales SIGI', [
                     'cedula' => $cedula,
-                    'status' => $response->status(),
+                    'status' => $response?->status(),
                 ]);
 
                 return null;
@@ -74,11 +99,19 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
 
             $data = $response->json('data', []);
 
-            return [
+            $totals = [
                 'nombre' => trim((string) ($data['nombre'] ?? '').' '.($data['apellido'] ?? '')),
-                    'total_anticipado' => (float) ($data['valores_totales'] ?? 0),
-                    'total_legalizado' => (float) ($data['valores_legalizados'] ?? $data['valoresLegalizados'] ?? 0),
+                'total_anticipado' => (float) ($data['valores_totales'] ?? 0),
+                'total_legalizado' => (float) ($data['valores_legalizados'] ?? $data['valoresLegalizados'] ?? 0),
             ];
+
+            Cache::put(
+                $cacheKey,
+                $totals,
+                now()->addMinutes((int) config('account_statement.viaticos.totals_cache_minutes', 10))
+            );
+
+            return $totals;
         } catch (\Throwable $exception) {
             Log::warning('Error consultando totales SIGI', [
                 'cedula' => $cedula,

@@ -12,6 +12,8 @@ return [
     'viaticos' => [
     'base_url'      => env('VIATICOS_API_URL'),
     'totals_path'   => env('VIATICOS_TOTALS_PATH', '/api/v1/asesores/{cedula}/valores-totales-viaticos'),
+    'totals_cache_minutes' => env('VIATICOS_TOTALS_CACHE_MINUTES', 10),
+    'totals_max_retries' => env('VIATICOS_TOTALS_MAX_RETRIES', 3),
     'client_id'     => env('VIATICOS_CLIENT_ID'),
     'client_secret' => env('VIATICOS_CLIENT_SECRET'),
     'scope'         => env('VIATICOS_SCOPE', 'read-anticipos'),
