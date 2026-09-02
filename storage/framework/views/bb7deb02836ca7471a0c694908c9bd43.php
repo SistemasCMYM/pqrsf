@@ -36,4 +36,4 @@
         </div>
     </body>
 </html>
-<?php /**PATH /home/sysocoqv/pqrs/resources/views/layouts/app.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/sigiv2/pqrs/resources/views/layouts/app.blade.php ENDPATH**/ ?>

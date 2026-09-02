@@ -89,6 +89,33 @@ class ViaticosApiDataSource implements AccountStatementDataSourceInterface
             }
 
             if (! $response || ! $response->successful()) {
+                if ($response?->status() === 404) {
+                    Cache::put($cacheKey, [], now()->addMinutes(30));
+
+                    Log::info('Usuario no encontrado en SIGI', [
+                        'cedula' => $cedula,
+                    ]);
+
+                    return [];
+                }
+
+                if ($response?->status() === 429) {
+                    Log::warning('Límite de SIGI alcanzado; usando resumen de viáticos pendientes', [
+                        'cedula' => $cedula,
+                    ]);
+
+                    $fallback = $this->fetchByCedula($cedula);
+                    $fallbackResumen = $fallback['resumen'] ?? null;
+
+                    if ($fallbackResumen) {
+                        return [
+                            'nombre' => '',
+                            'total_anticipado' => (float) data_get($fallbackResumen, 'anticipos_adiciones', 0),
+                            'total_legalizado' => (float) data_get($fallbackResumen, 'legalizado_devoluciones', 0),
+                        ];
+                    }
+                }
+
                 Log::warning('No se pudieron obtener totales SIGI', [
                     'cedula' => $cedula,
                     'status' => $response?->status(),

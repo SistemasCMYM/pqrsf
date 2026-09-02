@@ -193,4 +193,4 @@
 <?php $component = $__componentOriginal69dc84650370d1d4dc1b42d016d7226b; ?>
 <?php unset($__componentOriginal69dc84650370d1d4dc1b42d016d7226b); ?>
 <?php endif; ?>
-<?php /**PATH /home/sysocoqv/pqrs/resources/views/auth/login.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/sigiv2/pqrs/resources/views/auth/login.blade.php ENDPATH**/ ?>

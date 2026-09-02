@@ -16,6 +16,14 @@
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <div class="cmm-card p-6">
+                    <h3 class="text-lg font-semibold text-[#624133]">Exportación general</h3>
+                    <p class="mt-1 text-xs text-[#4d4d4d]">Descarga un consolidado con una fila por usuario.</p>
+                    <a href="<?php echo e(route('estado-cuenta.admin.export-general')); ?>" class="cmm-btn-primary mt-4 inline-block">
+                        Exportar usuarios a Excel
+                    </a>
+                </div>
+
+                <div class="cmm-card p-6">
                     <h3 class="text-lg font-semibold text-[#624133]">Importar Excel</h3>
                     <p class="mt-1 text-xs text-[#4d4d4d]">Puedes cargar archivos con resumen o solo detalle. El sistema consolida automáticamente.</p>
                     <form method="POST" action="<?php echo e(route('estado-cuenta.admin.import')); ?>" enctype="multipart/form-data" class="mt-4 space-y-3">
@@ -66,4 +74,4 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
-<?php /**PATH /home/sysocoqv/pqrs/resources/views/estado-cuenta/admin/index.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/sigiv2/pqrs/resources/views/estado-cuenta/admin/index.blade.php ENDPATH**/ ?>

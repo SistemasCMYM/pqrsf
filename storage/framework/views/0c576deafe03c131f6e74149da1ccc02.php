@@ -23,4 +23,4 @@
         </div>
     </body>
 </html>
-<?php /**PATH /home/sysocoqv/pqrs/resources/views/layouts/guest.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/sigiv2/pqrs/resources/views/layouts/guest.blade.php ENDPATH**/ ?>

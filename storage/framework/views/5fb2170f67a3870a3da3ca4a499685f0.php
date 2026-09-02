@@ -291,4 +291,4 @@
         </div>
     </div>
 </nav>
-<?php /**PATH /home/sysocoqv/pqrs/resources/views/layouts/navigation.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/sigiv2/pqrs/resources/views/layouts/navigation.blade.php ENDPATH**/ ?>

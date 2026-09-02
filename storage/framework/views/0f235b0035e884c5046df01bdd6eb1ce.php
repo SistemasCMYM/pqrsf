@@ -12,6 +12,7 @@
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
             <?php if($error): ?><div class="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"><?php echo e($error); ?></div><?php endif; ?>
+            <?php if($cedula && !$error && !$resumen): ?><div class="rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-700">No hay registros para la cédula <strong><?php echo e($cedula); ?></strong>. Verifica que el número sea correcto.</div><?php endif; ?>
             <form class="grid gap-3 cmm-card p-4 md:grid-cols-6">
                 <?php if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Coordinador Estado Cuenta')): ?>
                     <input name="cedula" value="<?php echo e($cedula); ?>" placeholder="Cédula" class="rounded-lg border-[#e7e7e7]">
@@ -23,6 +24,16 @@
                 <button class="cmm-btn-primary">Aplicar filtros</button>
             </form>
 
+            
+            <div class="mt-8 mb-2 flex items-center justify-between gap-4">
+                <h3 class="text-lg font-semibold text-[#36574e]">Resultados desde SIGI</h3>
+                <?php if($cedula): ?>
+                    <a href="<?php echo e(route('estado-cuenta.export', array_filter(['cedula' => $cedula, ...$filters], fn ($value) => filled($value)))); ?>"
+                       class="cmm-btn-primary whitespace-nowrap">
+                        Exportar a Excel
+                    </a>
+                <?php endif; ?>
+            </div>
             <?php if($resumen): ?>
                 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Total anticipos</p><p class="text-xl font-bold text-[#901227]">$<?php echo e(number_format((float)$resumen->anticipos_adiciones, 0, ',', '.')); ?></p></div>
@@ -31,12 +42,48 @@
                     <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Estado saldo</p><p class="text-sm font-semibold text-[#624133]"><?php echo e($resumen->estado_saldo); ?></p></div>
                 </div>
             <?php endif; ?>
+            <div class="overflow-hidden cmm-card mt-2 mb-8">
+                <table class="min-w-full divide-y divide-[#e7e7e7] text-sm">
+                    <thead class="bg-[#f4ecdc] text-[#624133]"><tr><th class="px-4 py-3 text-left">Item</th><th class="px-4 py-3 text-left">Fecha ida</th><th class="px-4 py-3 text-left">Destino</th><th class="px-4 py-3 text-right">Anticipo</th><th class="px-4 py-3 text-right">Legalizado</th><th class="px-4 py-3 text-right">Saldo</th><th class="px-4 py-3 text-center">Estado</th></tr></thead>
+                    <tbody class="divide-y divide-[#e7e7e7]">
+                        <?php $__empty_1 = true; $__currentLoopData = $detalle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <a href="https://gestion.syso.co/legalizaciones/<?php echo e($d->id_legalizacion); ?>" 
+                                    class="text-blue-600 hover:underline">
+                                        <?php echo e($d->item); ?>
 
-            <div class="overflow-hidden cmm-card">
+                                    </a>
+                                </td>
+                                <td class="px-4 py-3"><?php echo e(optional($d->fecha_ida)->format('Y-m-d')); ?></td>
+                                <td class="px-4 py-3"><?php echo e($d->municipio_destino); ?></td>
+                                <td class="px-4 py-3 text-right">$<?php echo e(number_format((float)$d->anticipo, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-right">$<?php echo e(number_format((float)$d->legalizado, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-right">$<?php echo e(number_format((float)$d->saldo_pendiente, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-center"><span class="cmm-badge"><?php echo e($d->estado); ?></span></td>
+                            </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                            <tr><td colspan="6" class="px-4 py-8 text-center text-[#4d4d4d]">No hay registros para la consulta actual.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            
+            <h3 class="text-lg font-semibold text-[#36574e] mt-8 mb-2">Resultados desde la base de datos local</h3>
+            <?php if($dbResumen): ?>
+                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Total anticipos</p><p class="text-xl font-bold text-[#901227]">$<?php echo e(number_format((float)$dbResumen->anticipos_adiciones, 0, ',', '.')); ?></p></div>
+                    <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Total legalizado</p><p class="text-xl font-bold text-[#36574e]">$<?php echo e(number_format((float)$dbResumen->legalizado_devoluciones, 0, ',', '.')); ?></p></div>
+                    <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Sin legalizar</p><p class="text-xl font-bold text-[#ca6261]">$<?php echo e(number_format((float)$dbResumen->sin_legalizar, 0, ',', '.')); ?></p></div>
+                    <div class="cmm-card p-4"><p class="text-xs text-[#4b729f]">Estado saldo</p><p class="text-sm font-semibold text-[#624133]"><?php echo e($dbResumen->estado_saldo); ?></p></div>
+                </div>
+            <?php endif; ?>
+            <div class="overflow-hidden cmm-card mt-2">
                 <table class="min-w-full divide-y divide-[#e7e7e7] text-sm">
                     <thead class="bg-[#f4ecdc] text-[#624133]"><tr><th class="px-4 py-3 text-left">Fecha ida</th><th class="px-4 py-3 text-left">Destino</th><th class="px-4 py-3 text-right">Anticipo</th><th class="px-4 py-3 text-right">Legalizado</th><th class="px-4 py-3 text-right">Saldo</th><th class="px-4 py-3 text-center">Estado</th></tr></thead>
                     <tbody class="divide-y divide-[#e7e7e7]">
-                        <?php $__empty_1 = true; $__currentLoopData = $detalle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <?php $__empty_1 = true; $__currentLoopData = $dbDetalle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <tr>
                                 <td class="px-4 py-3"><?php echo e(optional($d->fecha_ida)->format('Y-m-d')); ?></td>
                                 <td class="px-4 py-3"><?php echo e($d->municipio_destino); ?></td>
@@ -63,4 +110,4 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
-<?php /**PATH /home/sysocoqv/pqrs/resources/views/estado-cuenta/dashboard.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/sigiv2/pqrs/resources/views/estado-cuenta/dashboard.blade.php ENDPATH**/ ?>

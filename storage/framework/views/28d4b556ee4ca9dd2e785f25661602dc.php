@@ -72,4 +72,4 @@
     </main>
 </body>
 </html>
-<?php /**PATH /home/sysocoqv/pqrs/resources/views/welcome.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/sigiv2/pqrs/resources/views/welcome.blade.php ENDPATH**/ ?>
